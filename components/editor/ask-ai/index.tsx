@@ -6,11 +6,12 @@ import { toast } from "sonner";
 import { useLocalStorage, useUpdateEffect } from "react-use";
 import { ArrowUp, ChevronDown, Crosshair } from "lucide-react";
 import { FaStopCircle } from "react-icons/fa";
-
+import arrows from "@assets/images/arrows.png";
 import ProModal from "@/components/pro-modal";
 import { Button } from "@/components/ui/button";
 import { MODELS } from "@/lib/providers";
 import { HtmlHistory } from "@/types";
+import "@assets/own.css";
 import { InviteFriends } from "@/components/invite-friends";
 import { Settings } from "@/components/editor/ask-ai/settings";
 import { LoginModal } from "@/components/login-modal";
@@ -100,7 +101,7 @@ export function AskAI({
             previousPrompt,
             model,
             html,
-            selectedElementHtml:"",
+            selectedElementHtml: "",
           }),
           headers: {
             "Content-Type": "application/json",
@@ -341,7 +342,7 @@ export function AskAI({
         )}
         <div className="w-full relative flex items-center justify-between">
           {isAiWorking && (
-            <div className="absolute bg-neutral-800 rounded-lg bottom-0 left-4 w-[calc(100%-30px)] h-full z-1 flex items-center justify-between max-lg:text-sm">
+            <div className="absolute bg-[#262626] border border-[#404040] rounded-[1px] bottom-0 left-4 w-[calc(100%-30px)] h-full z-1 flex items-center justify-between max-lg:text-sm">
               <div className="flex items-center justify-start gap-2">
                 <Loading overlay={false} className="!size-4" />
                 <p className="text-neutral-400 text-sm">
@@ -361,17 +362,17 @@ export function AskAI({
             type="text"
             disabled={isAiWorking}
             className={classNames(
-              "w-full bg-transparent text-sm outline-none text-white placeholder:text-neutral-400 p-4",
+              "w-full bg-transparent text-sm outline-none text-white placeholder:text-neutral-400 p-3",
               {
                 "!pt-2.5": selectedElement && !isAiWorking,
               }
             )}
             placeholder={
               selectedElement
-                ? `Ask DeepSite about ${selectedElement.tagName.toLowerCase()}...`
+                ? `Ask  about ${selectedElement.tagName.toLowerCase()}...`
                 : hasAsked
-                ? "Ask DeepSite for edits"
-                : "Ask DeepSite anything..."
+                ? "Ask  for edits"
+                : "Ask  Anything..."
             }
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
@@ -381,8 +382,17 @@ export function AskAI({
               }
             }}
           />
+          <Button
+            size="iconXs"
+            className="me-3"
+            disabled={isAiWorking || !prompt.trim()}
+            onClick={() => callAi()}
+          >
+            {/* <ArrowUp className="size-4" /> */}
+            <img src={arrows.src} alt="arrow" className="arrows-icona"></img>
+          </Button>
         </div>
-        <div className="flex items-center justify-between gap-2 px-4 pb-3">
+        {/* <div className="flex items-center justify-between gap-2 px-4 pb-3">
           <div className="flex-1 flex items-center justify-start gap-1.5">
             <ReImagine onRedesign={(md) => callAi(md)} />
             {!isSameHtml && (
@@ -433,7 +443,7 @@ export function AskAI({
               <ArrowUp className="size-4" />
             </Button>
           </div>
-        </div>
+        </div> */}
         <LoginModal open={open} onClose={() => setOpen(false)} html={html} />
         <ProModal
           html={html}

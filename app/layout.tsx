@@ -23,11 +23,11 @@ const ptSans = PT_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "DeepSite | Build with AI ✨",
+  title: "Kumar | UI Designer Agent",
   description:
     "DeepSite is a web development tool that helps you build websites with AI, no code required. Let's deploy your website with DeepSite and enjoy the magic of AI.",
   openGraph: {
-    title: "DeepSite | Build with AI ✨",
+    title: "Kumar | UI Designer Agent",
     description:
       "DeepSite is a web development tool that helps you build websites with AI, no code required. Let's deploy your website with DeepSite and enjoy the magic of AI.",
     url: "https://deepsite.hf.co",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "DeepSite | Build with AI ✨",
+    title: "Kumar | UI Designer Agent",
     description:
       "DeepSite is a web development tool that helps you build websites with AI, no code required. Let's deploy your website with DeepSite and enjoy the magic of AI.",
     images: ["https://deepsite.hf.co/banner.png"],

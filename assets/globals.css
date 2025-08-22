@@ -144,3 +144,6 @@
 .matched-line {
   @apply bg-sky-500/30;
 }
+.disabled\:opacity-50:disabled {
+    opacity: 1 !important;
+}

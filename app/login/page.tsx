@@ -1,15 +1,32 @@
 "use client";
 import React, { useState, useCallback } from "react";
 import "@/assets/login.css";
+import logo from "@assets/images/logo.png";
+import soc1 from "@assets/images/youtube.png";
+import soc2 from "@assets/images/twitter.png";
+import soc3 from "@assets/images/insta.png";
+import soc4 from "@assets/images/facebook.png";
+import soc5 from "@assets/images/linkedin.png";
+import soc6 from "@assets/images/gt.png";
+import jesica from "@assets/images/jessica.png";
+import kumar from "@assets/images/kumar.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+
+// Alert Component
+const Alert = React.forwardRef<HTMLDivElement, any>(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    username: "",
   });
   const [isSignupMode, setIsSignupMode] = useState(false); // 🔹 New state
 
@@ -63,65 +80,98 @@ const Login = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleEmailLogin = async (e) => {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<AlertColor>("info");
+
+  const showSnackbar = useCallback(
+    (message: string, severity: AlertColor = "info") => {
+      setSnackbarMessage(message);
+      setSnackbarSeverity(severity);
+      setSnackbarOpen(true);
+    },
+    []
+  );
+
+  const handleSnackbarClose = (
+    _event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") return;
+    setSnackbarOpen(false);
+  };
+
+  const handleEmailLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) {
+      showSnackbar("Please fix the errors in the form", "error");
       return;
     }
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch("http://localhost:4000/api/v1/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
       });
 
       if (res.ok) {
         const data = await res.json();
-        const decodedToken = jwtDecode(data.token);
-        console.log("token", decodedToken);
-
+        const decodedToken = jwtDecode(data.token) as { email: string };
         Cookies.set("access-token", data.token);
         localStorage.setItem("mail", decodedToken.email);
+
+        showSnackbar("Login successful!", "success");
         router.push("/projects/new");
       } else {
-        // Handle login error
-        console.error("Login failed");
+        const errorData = await res.json();
+        showSnackbar(errorData.message || "Login failed", "error");
       }
     } catch (error) {
-      console.error("Login failed", error);
+      showSnackbar("An error occurred. Please try again.", "error");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleEmailSignup = async (e) => {
+  const handleEmailSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) {
+      showSnackbar("Please fix the errors in the form", "error");
       return;
     }
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/auth/signup", {
+      const res = await fetch("http://localhost:4000/api/v1/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          username: formData.username,
+        }),
       });
 
-      if (res.status === 201) {
-        router.push("/projects/new");
+      if (res.status === 200 || res.status === 201) {
+        setIsSignupMode(false);
+        showSnackbar(
+          "Signup successful! Please check your email for verification.",
+          "success"
+        );
       } else {
-        // Handle signup error
-        console.error("Signup failed");
+        const errorData = await res.json();
+        showSnackbar(errorData.message || "Signup failed", "error");
       }
     } catch (error) {
-      console.error("Signup failed", error);
+      showSnackbar(
+        "An error occurred during signup. Please try again.",
+        "error"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -131,16 +181,27 @@ const Login = () => {
     <>
       <div className="container-fluid px-4 px-lg-0 hero overflow-hidden">
         <div className="container top-nv d-flex justify-content-between py-4 px-4 px-lg-0">
-          <img src="/logo.svg" className="logo" alt="logo" />
+          <img src={logo.src} className="logo" alt="logo" />
+          <div className="d-flex gap-3">
+            <img src={soc1.src} className="nv-icon-soc" alt="social" />
+            <img src={soc2.src} className="nv-icon-soc" alt="social" />
+            <img src={soc3.src} className="nv-icon-soc" alt="social" />
+            <img src={soc4.src} className="nv-icon-soc" alt="social" />
+            <img src={soc5.src} className="nv-icon-soc" alt="social" />
+            <img src={soc6.src} className="nv-icon-soc" alt="social" />
+          </div>
         </div>
         <div className="container d-flex  align-items-center justify-content-center p-0 mt-lg-5 mt-5">
           <div className="form-overlay p-4 col-lg-9 ">
             <div className="row">
               <div className="col-lg-6 col-12">
                 <div className="jesica-img-card">
+                  <div className="jesica-img">
+                    <img src={kumar.src} alt="jesica"></img>
+                  </div>
                   <div className="jesica-text text-lg-center text-left mt-3">
-                    <h1 className="mb-0">Meet JESSICA:</h1>
-                    <p className="pt-1">Your AI Secretary Agent</p>
+                    <h1 className="mb-0">Meet KUMAR:</h1>
+                    <p className="pt-1">Your UI Designer Agent</p>
                   </div>
                 </div>
               </div>
@@ -153,7 +214,7 @@ const Login = () => {
                       ? "Create your account to get started."
                       : "Welcome back! Please sign in."}{" "}
                   </p>
-                  <h6 className="form-h6">Jessica AI</h6>
+                  <h6 className="form-h6">Kumar AI</h6>
                 </div>
                 <form
                   className="mt-4"
@@ -190,6 +251,41 @@ const Login = () => {
                       placeholder="Enter Your Email"
                     />
                   </div>
+                  {/* Username */}
+                  {isSignupMode && (
+                    <>
+                      <label className="label mt-3">Username</label>
+                      <div className="input-group-1 mt-2">
+                        <span className="input-icon" aria-hidden="true">
+                          {/* New Email SVG */}
+                          <svg
+                            width="22"
+                            height="19"
+                            viewBox="0 0 22 19"
+                            fill="none"
+                            stroke="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M1 4.1875L9.1649 10.2601C9.8261 10.7519 10.1567 10.9978 10.5163 11.093C10.8339 11.1772 11.1661 11.1772 11.4837 11.093C11.8433 10.9978 12.1739 10.7519 12.8351 10.2601L21 4.1875M5.8 18H16.2C17.8802 18 18.7202 18 19.362 17.6526C19.9265 17.347 20.3854 16.8594 20.673 16.2596C21 15.5777 21 14.6852 21 12.9V6.1C21 4.31483 21 3.42225 20.673 2.74041C20.3854 2.14064 19.9265 1.65301 19.362 1.34742C18.7202 1 17.8802 1 16.2 1H5.8C4.11984 1 3.27976 1 2.63803 1.34742C2.07354 1.65301 1.6146 2.14064 1.32698 2.74041C1 3.42225 1 4.31483 1 6.1V12.9C1 14.6852 1 15.5777 1.32698 16.2596C1.6146 16.8594 2.07354 17.347 2.63803 17.6526C3.27976 18 4.11984 18 5.8 18Z"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+
+                        <input
+                          type="text"
+                          name="username"
+                          value={formData?.username}
+                          onChange={handleInputChange}
+                          className="input-field"
+                          placeholder="Enter Your Username"
+                        />
+                      </div>
+                    </>
+                  )}
 
                   {/* Password */}
                   <label className="label mt-3">Password</label>
@@ -289,11 +385,85 @@ const Login = () => {
                     </p>
                   </div>
                 </form>
+
+                {/* or */}
+                {/* <div className="or-simbli row d-flex align-item-center justify-content-center py-lg-2">
+                  <div className="simbli-line col-lg-5 col-md-5  col-12 d-none d-lg-block d-md-block mt-2"></div>
+                  <p
+                    className="pb-0 mb-0 text-center col-md-2 col-lg-2 col-12 text-center"
+                    style={{ color: "#ffffff", fontSize: "15px" }}
+                  >
+                    OR
+                  </p>
+                  <div className="simbli-line col-lg-5 col-md-5 col-12 d-none d-lg-block d-md-block mt-2"></div>
+                </div> */}
+
+                {/* social login */}
+                <div className="social-logins mt-2">
+                  <div className="row">
+                    <div className="col-lg-6 col-6">
+                      {/* Google button */}
+                      {/* <button className="microsoft-btn mt-lg-0">
+                            {" "}
+                            <img
+                              src={social1}
+                              alt="social"
+                              className="google-login me-1"
+                            />
+                            Google
+                          </button> */}
+                      {/* <GoogleOAuthProvider
+                        clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
+                      >
+                        <GoogleLogin
+                          onSuccess={handleSuccess}
+                          onError={handleError}
+                        />
+                      </GoogleOAuthProvider> */}
+                    </div>
+                    {/* <div className="col-lg-6 col-6">
+                      <button
+                        className="microsoft-btn "
+                        onClick={handleLinkedInLogin}
+                      >
+                        {" "}
+                        <img
+                          src={social2}
+                          alt="social"
+                          className="google-login me-1"
+                        />
+                        LinkedIn
+                      </button>
+                    </div> */}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{
+            width: "100%",
+            ...(snackbarSeverity === "success" && {
+              backgroundColor: "#58C958",
+            }),
+            ...(snackbarSeverity === "error" && {
+              backgroundColor: "#E74C3C",
+            }),
+          }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };

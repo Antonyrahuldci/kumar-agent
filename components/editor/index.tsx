@@ -175,11 +175,7 @@ export const AppEditor = ({ project }: { project?: Project | null }) => {
 
   return (
     <section className="h-[100dvh] bg-neutral-950 flex flex-col">
-      <Header
-        tab={currentTab}
-        onNewTab={setCurrentTab}
-        html={html}
-      />
+      <Header tab={currentTab} onNewTab={setCurrentTab} html={html} />
       <main className="bg-neutral-950 flex-1 max-lg:flex-col flex w-full max-lg:h-[calc(100%-82px)] relative">
         {currentTab === "chat" && (
           <>
@@ -198,7 +194,7 @@ export const AppEditor = ({ project }: { project?: Project | null }) => {
                 defaultLanguage="html"
                 theme="vs-dark"
                 className={classNames(
-                  "h-full bg-neutral-900 transition-all duration-200 absolute left-0 top-0",
+                  "h-full bg-neutral-900 transition-all duration-200 absolute left-0 top-0 px-2 py-4",
                   {
                     "pointer-events-none": isAiWorking,
                   }

@@ -1,3 +1,5 @@
+import rocketImg from "../assets/images/rocket.png";
+
 export const defaultHTML = `<!DOCTYPE html>
 <html>
   <head>
@@ -8,13 +10,12 @@ export const defaultHTML = `<!DOCTYPE html>
   </head>
   <body class="flex justify-center items-center h-screen overflow-hidden bg-white font-sans text-center px-6">
     <div class="w-full">
-      <span class="text-xs rounded-full mb-2 inline-block px-2 py-1 border border-amber-500/15 bg-amber-500/15 text-amber-500">🔥 New version dropped!</span>
-      <h1 class="text-4xl lg:text-6xl font-bold font-sans">
-        <span class="text-2xl lg:text-4xl text-gray-400 block font-medium">I'm ready to work,</span>
-        Ask me anything.
+      <img src="${rocketImg?.src}" alt="Rocket" class="w-14 h-14 mx-auto mb-2" />
+      <h1 class="font-bold font-sans">
+        <span class="text-[16px] text-[#0A0A0A] block font-medium">Ready to Design, Ready to Impress.</span>
+        <span class="text-[30px] text-[#28AE1B]">What Can I Build for You Today?</span>
       </h1>
     </div>
-      <img src="https://enzostvs-deepsite.hf.space/arrow.svg" class="absolute bottom-8 left-0 w-[100px] transform rotate-[30deg]" />
     <script></script>
   </body>
 </html>
