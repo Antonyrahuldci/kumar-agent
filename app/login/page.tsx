@@ -8,13 +8,13 @@ import soc3 from "@assets/images/insta.png";
 import soc4 from "@assets/images/facebook.png";
 import soc5 from "@assets/images/linkedin.png";
 import soc6 from "@assets/images/gt.png";
-import jesica from "@assets/images/jessica.png";
 import kumar from "@assets/images/kumar.png";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import Image from "next/image";
 
 // Alert Component
 const Alert = React.forwardRef<HTMLDivElement, any>(function Alert(props, ref) {
@@ -36,13 +36,13 @@ const Login = () => {
   const router = useRouter();
 
   // Email validation
-  const validateEmail = (email) => {
+  const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   // Password validation
-  const validatePassword = (password) => {
+  const validatePassword = (password: string): boolean => {
     return (
       password.length >= 8 &&
       /[A-Z]/.test(password) &&
@@ -51,16 +51,17 @@ const Login = () => {
     );
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log(`Input Name: ${name}, Value: ${value}`); // Add this
+    console.log(`Input Name: ${name}, Value: ${value}`);
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) {
+    if (errors[name as keyof typeof errors]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
+
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors: any = {};
 
     if (!formData.email) {
       newErrors.email = "Email is required";
@@ -109,7 +110,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:4000/api/v1/login", {
+      const res = await fetch("https://backend-kumar.simbli.ai/api/v1/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -146,7 +147,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:4000/api/v1/register", {
+      const res = await fetch("https://backend-kumar.simbli.ai/api/v1/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -178,16 +179,20 @@ const Login = () => {
 
   return (
     <>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      />
       <div className="container-fluid px-4 px-lg-0 hero overflow-hidden">
         <div className="container top-nv d-flex justify-content-between py-4 px-4 px-lg-0">
-          <img src={logo.src} className="logo" alt="logo" />
+          <Image src={logo.src} className="logo" alt="logo" />
           <div className="d-flex gap-3">
-            <img src={soc1.src} className="nv-icon-soc" alt="social" />
-            <img src={soc2.src} className="nv-icon-soc" alt="social" />
-            <img src={soc3.src} className="nv-icon-soc" alt="social" />
-            <img src={soc4.src} className="nv-icon-soc" alt="social" />
-            <img src={soc5.src} className="nv-icon-soc" alt="social" />
-            <img src={soc6.src} className="nv-icon-soc" alt="social" />
+            <Image src={soc1.src} className="nv-icon-soc" alt="social" />
+            <Image src={soc2.src} className="nv-icon-soc" alt="social" />
+            <Image src={soc3.src} className="nv-icon-soc" alt="social" />
+            <Image src={soc4.src} className="nv-icon-soc" alt="social" />
+            <Image src={soc5.src} className="nv-icon-soc" alt="social" />
+            <Image src={soc6.src} className="nv-icon-soc" alt="social" />
           </div>
         </div>
         <div className="container d-flex  align-items-center justify-content-center p-0 mt-lg-5 mt-5">
@@ -196,7 +201,7 @@ const Login = () => {
               <div className="col-lg-6 col-12">
                 <div className="jesica-img-card">
                   <div className="jesica-img">
-                    <img src={kumar.src} alt="jesica"></img>
+                    <Image src={kumar.src} alt="jesica" />
                   </div>
                   <div className="jesica-text text-lg-center text-left mt-3">
                     <h1 className="mb-0">Meet KUMAR:</h1>
@@ -404,7 +409,7 @@ const Login = () => {
                       {/* Google button */}
                       {/* <button className="microsoft-btn mt-lg-0">
                             {" "}
-                            <img
+                            <Image
                               src={social1}
                               alt="social"
                               className="google-login me-1"
@@ -426,7 +431,7 @@ const Login = () => {
                         onClick={handleLinkedInLogin}
                       >
                         {" "}
-                        <img
+                        <Image
                           src={social2}
                           alt="social"
                           className="google-login me-1"

@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import logo from "@assets/images/logo.png";
 import "@/assets/swal.css";
 import logouticon from "@assets/images/logouticon.png";
+import Image from "next/image";
 
 const Logout = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ const Logout = () => {
       text: "Are you sure you want to log out?",
       showConfirmButton: true,
       showCancelButton: true,
-      confirmButtonText: "OK",
+      confirmButtonText: "Ok",
       cancelButtonText: "Cancel",
       imageUrl: logo?.src,
       background: "#1C1D1F",
@@ -60,7 +61,7 @@ const Logout = () => {
         textTransform: "capitalize",
       }}
       startIcon={
-        <img
+        <Image
           src={logouticon.src}
           alt="Logout"
           style={{ width: 15, height: 15 }}

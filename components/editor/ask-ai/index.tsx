@@ -23,6 +23,7 @@ import { TooltipContent } from "@radix-ui/react-tooltip";
 import { SelectedHtmlElement } from "./selected-html-element";
 import { FollowUpTooltip } from "./follow-up-tooltip";
 import { isTheSameHtml } from "@/lib/compare-html-diff";
+import Image from "next/image";
 
 export function AskAI({
   html,
@@ -368,13 +369,15 @@ export function AskAI({
               }
             )}
             placeholder={
-              selectedElement
-                ? `Ask  about ${selectedElement.tagName.toLowerCase()}...`
+              isAiWorking
+                ? ""
+                : selectedElement
+                ? `Ask about ${selectedElement.tagName.toLowerCase()}...`
                 : hasAsked
-                ? "Ask  for edits"
-                : "Ask  Anything..."
+                ? "Ask for edits"
+                : "Ask Anything..."
             }
-            value={prompt}
+            value={isAiWorking ? "" : prompt}
             onChange={(e) => setPrompt(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
@@ -382,15 +385,14 @@ export function AskAI({
               }
             }}
           />
-          <Button
-            size="iconXs"
+          <button
             className="me-3"
             disabled={isAiWorking || !prompt.trim()}
             onClick={() => callAi()}
           >
             {/* <ArrowUp className="size-4" /> */}
-            <img src={arrows.src} alt="arrow" className="arrows-icona"></img>
-          </Button>
+            <Image src={arrows.src} alt="arrow" className="arrows-icona" />
+          </button>
         </div>
         {/* <div className="flex items-center justify-between gap-2 px-4 pb-3">
           <div className="flex-1 flex items-center justify-start gap-1.5">
@@ -452,7 +454,7 @@ export function AskAI({
         />
         {!isSameHtml && (
           <div className="absolute top-0 right-0 -translate-y-[calc(100%+8px)] select-none text-xs text-neutral-400 flex items-center justify-center gap-2 bg-neutral-800 border border-neutral-700 rounded-md p-1 pr-2.5">
-            <label
+            {/* <label
               htmlFor="diff-patch-checkbox"
               className="flex items-center gap-1.5 cursor-pointer"
             >
@@ -467,8 +469,8 @@ export function AskAI({
                 }}
               />
               Diff-Patch Update
-            </label>
-            <FollowUpTooltip />
+            </label> */}
+            {/* <FollowUpTooltip /> */}
           </div>
         )}
       </div>

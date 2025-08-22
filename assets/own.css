@@ -16,6 +16,7 @@
     width: 45px;
     height: 35px;
     object-fit: contain;
+    /* border-radius: 9px ; */
 }
 
 .disabled\:opacity-50:disabled {

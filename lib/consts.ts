@@ -8,7 +8,8 @@ export const defaultHTML = `<!DOCTYPE html>
     <meta charset="utf-8">
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="flex justify-center items-center h-screen overflow-hidden bg-white font-sans text-center px-6">
+  <body class="flex justify-center items-center h-screen overflow-hidden bg-[linear-gradient(94.48deg,#ffffff_60%,#eaffea_90%,#d6ffd6_100%)] 
+  border rounded-xl [border-image:linear-gradient(94.48deg,#C0FFBA_2.18%,#7BFF6E_95.19%)_1 font-sans text-center px-6">
     <div class="w-full">
       <img src="${rocketImg?.src}" alt="Rocket" class="w-14 h-14 mx-auto mb-2" />
       <h1 class="font-bold font-sans">

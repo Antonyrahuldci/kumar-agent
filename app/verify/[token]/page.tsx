@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-import "@assets/login.css";
+import back from "@assets/images/log-back.jpg";
+import "@/assets/swal.css";
 const VerifyPage = () => {
   const { token } = useParams();
   const router = useRouter();
@@ -17,9 +18,12 @@ const VerifyPage = () => {
 
   const verifyEmail = async (token: string) => {
     try {
-      const res = await fetch(`http://localhost:4000/api/v1/verify/${token}`, {
-        method: "GET",
-      });
+      const res = await fetch(
+        `https://backend-kumar.simbli.ai/api/v1/verify/${token}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (res.ok) {
         Swal.fire({
@@ -27,9 +31,13 @@ const VerifyPage = () => {
           text: "Your email has been successfully verified.",
           icon: "success",
           confirmButtonText: "Login",
-          background: "#1C1D1F",
           color: "#FFFFFF",
-          confirmButtonColor: "#7DDD7D",
+          background: "#1C1D1F",
+          customClass: {
+            popup: "swal2-popup-custom",
+            confirmButton: "swal2-confirm-custom",
+            image: "logo",
+          },
         }).then(() => {
           router.push("/login");
         });
@@ -40,8 +48,12 @@ const VerifyPage = () => {
           icon: "error",
           confirmButtonText: "OK",
           background: "#1C1D1F",
-          color: "#FFFFFF",
-          confirmButtonColor: "#7DDD7D",
+          customClass: {
+            popup: "swal2-popup-custom",
+            confirmButton: "swal2-confirm-custom",
+
+            image: "logo",
+          },
         });
       }
     } catch (error) {
@@ -63,10 +75,20 @@ const VerifyPage = () => {
   if (loading) {
     return (
       <div
-        style={{ textAlign: "center", marginTop: "50px", color: "#7DDD7D" }}
         className="hero"
+        style={{
+          backgroundImage: `url(${back.src})`,
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}
       >
-        {/* Verifying your email... */}
+        <p style={{ color: "#7DDD7D", fontSize: "18px" }}>
+          {/* Verifying your email... */}
+        </p>
       </div>
     );
   }

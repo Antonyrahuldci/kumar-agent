@@ -13,6 +13,7 @@
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+    border-radius: 9px !important;
 }
 
 /* Cancel button */
@@ -26,6 +27,7 @@
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+    border-radius: 9px !important;
 }
 
 

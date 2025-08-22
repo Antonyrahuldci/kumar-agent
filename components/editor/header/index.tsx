@@ -1,7 +1,6 @@
 import { Eye, MessageCircleCode, Download } from "lucide-react";
 import JSZip from "jszip";
 import kumar from "@assets/images/kumarlogo.png";
-import Logo from "@/assets/logo.svg";
 import { Button } from "@/components/ui/button";
 import classNames from "classnames";
 import Image from "next/image";
@@ -32,7 +31,7 @@ export function Header({
 }) {
   const handleDownload = () => {
     const zip = new JSZip();
-    const styleRegex = /<style>(.*?)<\/style>/s;
+    const styleRegex = /<style>([\s\S]*?)<\/style>/;
     const match = html.match(styleRegex);
     let cssContent = "";
     let modifiedHtml = html;
