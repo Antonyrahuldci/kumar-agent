@@ -10,7 +10,6 @@ import soc5 from "@assets/images/linkedin.png";
 import soc6 from "@assets/images/gt.png";
 import jesica from "@assets/images/jessica.png";
 import kumar from "@assets/images/kumar.png";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
